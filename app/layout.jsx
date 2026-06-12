@@ -4,7 +4,7 @@ import Navbar from "@/components/shared/Navbar";
 import Footer from "@/components/shared/Footer";
 
 export const metadata = {
-    title: "Revenio",
+    title: "Inventra - Inventory management for modern SaaS products",
     description: "Next.js App Router starter project",
 };
 

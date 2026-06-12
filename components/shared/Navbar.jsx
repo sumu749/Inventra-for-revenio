@@ -1,12 +1,14 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import AvatarMenu from "@/components/shared/AvatarMenu";
 
 export default function Navbar() {
     const { user, logout } = useAuth();
+    const pathname = usePathname();
     const [open, setOpen] = useState(false);
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
@@ -23,6 +25,24 @@ export default function Navbar() {
         : user?.email
           ? user.email[0].toUpperCase()
           : "U";
+
+    const isActive = (href) => pathname === href;
+
+    const getLinkClass = (href) => {
+        const baseClass = "transition";
+        if (isActive(href)) {
+            return `${baseClass} text-blue-400 font-semibold`;
+        }
+        return `${baseClass} hover:text-white`;
+    };
+
+    const getMobileLinkClass = (href) => {
+        const baseClass = "block rounded-lg px-3 py-2 transition";
+        if (isActive(href)) {
+            return `${baseClass} bg-blue-600/20 text-blue-300 font-semibold`;
+        }
+        return `${baseClass} text-slate-200 hover:bg-slate-900 hover:text-white`;
+    };
 
     return (
         <header
@@ -44,24 +64,18 @@ export default function Navbar() {
                     </Link>
 
                     <nav className="hidden items-center gap-6 text-slate-200 md:flex">
-                        <Link href="/" className="transition hover:text-white">
+                        <Link href="/" className={getLinkClass("/")}>
                             Home
                         </Link>
-                        <Link
-                            href="/items"
-                            className="transition hover:text-white"
-                        >
+                        <Link href="/items" className={getLinkClass("/items")}>
                             Items
                         </Link>
-                        <Link
-                            href="/about"
-                            className="transition hover:text-white"
-                        >
+                        <Link href="/about" className={getLinkClass("/about")}>
                             About
                         </Link>
                         <Link
                             href="/contact"
-                            className="transition hover:text-white"
+                            className={getLinkClass("/contact")}
                         >
                             Contact
                         </Link>
@@ -132,30 +146,29 @@ export default function Navbar() {
             </div>
 
             <div
-                className={`${open ? "block" : "hidden"} border-t border-slate-800 bg-slate-950/95 md:hidden`}
+                className={`${
+                    open ? "block" : "hidden"
+                } border-t border-slate-800 bg-slate-950/95 md:hidden`}
             >
                 <div className="space-y-1 px-4 py-4">
-                    <Link
-                        href="/"
-                        className="block rounded-lg px-3 py-2 text-slate-200 transition hover:bg-slate-900 hover:text-white"
-                    >
+                    <Link href="/" className={getMobileLinkClass("/")}>
                         Home
                     </Link>
                     <Link
                         href="/items"
-                        className="block rounded-lg px-3 py-2 text-slate-200 transition hover:bg-slate-900 hover:text-white"
+                        className={getMobileLinkClass("/items")}
                     >
                         Items
                     </Link>
                     <Link
                         href="/about"
-                        className="block rounded-lg px-3 py-2 text-slate-200 transition hover:bg-slate-900 hover:text-white"
+                        className={getMobileLinkClass("/about")}
                     >
                         About
                     </Link>
                     <Link
                         href="/contact"
-                        className="block rounded-lg px-3 py-2 text-slate-200 transition hover:bg-slate-900 hover:text-white"
+                        className={getMobileLinkClass("/contact")}
                     >
                         Contact
                     </Link>
