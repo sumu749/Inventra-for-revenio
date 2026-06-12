@@ -4,7 +4,7 @@ export default function Hero() {
     return (
         <section className="relative overflow-hidden bg-slate-950 text-white">
             <div className="absolute inset-x-0 top-0 h-60 bg-gradient-to-b from-blue-600/20 to-transparent blur-3xl" />
-            <div className="relative mx-auto max-w-6xl px-6 py-20 lg:py-28">
+            <div className="relative mx-auto max-w-6xl px-6 pt-20 lg:pt-28">
                 <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
                     <div className="space-y-8">
                         <div className="inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/10 px-4 py-2 text-sm text-blue-200 shadow-sm shadow-blue-500/10">
