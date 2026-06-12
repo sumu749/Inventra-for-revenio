@@ -45,7 +45,7 @@ export default function PopularProducts() {
     ];
 
     return (
-        <section className="py-20 bg-slate-950">
+        <section className="pt-20 bg-slate-950">
             <div className="mx-auto max-w-6xl px-6">
                 <div className="mb-12 max-w-2xl">
                     <p className="mb-3 inline-flex rounded-full bg-blue-500/10 px-4 py-1 text-sm font-semibold uppercase tracking-[0.3em] text-blue-300">
