@@ -2,9 +2,13 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useAuth } from "@/hooks/useAuth";
+import AvatarMenu from "@/components/shared/AvatarMenu";
 
 export default function Navbar() {
+    const { user, logout } = useAuth();
     const [open, setOpen] = useState(false);
+    const [dropdownOpen, setDropdownOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
 
     useEffect(() => {
@@ -14,119 +18,185 @@ export default function Navbar() {
         return () => window.removeEventListener("scroll", onScroll);
     }, []);
 
+    const avatarLabel = user?.displayName
+        ? user.displayName[0].toUpperCase()
+        : user?.email
+          ? user.email[0].toUpperCase()
+          : "U";
+
     return (
         <header
-            className={`sticky top-0 z-50 transition-shadow ${scrolled ? "shadow-md backdrop-blur bg-slate-900/70" : "bg-transparent"} `}
+            className={`sticky top-0 z-50 transition-all duration-300 ${
+                scrolled
+                    ? "shadow-xl backdrop-blur bg-slate-950/95"
+                    : "bg-slate-950/90"
+            }`}
         >
-            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center justify-between h-16">
-                    <div className="flex items-center">
-                        <Link href="/" className="text-xl font-semibold">
-                            Revenio
-                        </Link>
-                    </div>
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="flex h-16 items-center justify-between gap-4">
+                    <Link href="/" className="flex items-center gap-3">
+                        <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-lg font-bold text-white">
+                            I
+                        </span>
+                        <span className="text-lg font-semibold tracking-tight text-white">
+                            Inventra
+                        </span>
+                    </Link>
 
-                    <nav className="hidden md:flex space-x-6">
-                        <Link
-                            href="/"
-                            className="text-slate-200 hover:text-white"
-                        >
+                    <nav className="hidden items-center gap-6 text-slate-200 md:flex">
+                        <Link href="/" className="transition hover:text-white">
                             Home
                         </Link>
                         <Link
+                            href="/items"
+                            className="transition hover:text-white"
+                        >
+                            Items
+                        </Link>
+                        <Link
                             href="/about"
-                            className="text-slate-200 hover:text-white"
+                            className="transition hover:text-white"
                         >
                             About
                         </Link>
                         <Link
-                            href="/dashboard"
-                            className="text-slate-200 hover:text-white"
+                            href="/contact"
+                            className="transition hover:text-white"
                         >
-                            Dashboard
-                        </Link>
-                        <Link
-                            href="/login"
-                            className="text-slate-200 hover:text-white"
-                        >
-                            Login
-                        </Link>
-                        <Link
-                            href="/register"
-                            className="text-slate-200 hover:text-white"
-                        >
-                            Register
+                            Contact
                         </Link>
                     </nav>
 
-                    <div className="flex items-center md:hidden">
-                        <button
-                            onClick={() => setOpen((v) => !v)}
-                            aria-label="Toggle menu"
-                            className="p-2 rounded-md text-slate-200 hover:bg-slate-800/50"
-                        >
-                            {open ? (
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    strokeWidth={2}
-                                    stroke="currentColor"
-                                    className="w-6 h-6"
+                    <div className="hidden items-center gap-3 md:flex">
+                        {!user ? (
+                            <>
+                                <Link
+                                    href="/login"
+                                    className="rounded-full border border-slate-700 px-4 py-2 text-sm text-slate-100 transition hover:border-slate-500 hover:text-white"
                                 >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M6 18L18 6M6 6l12 12"
-                                    />
-                                </svg>
-                            ) : (
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    strokeWidth={2}
-                                    stroke="currentColor"
-                                    className="w-6 h-6"
+                                    Login
+                                </Link>
+                                <Link
+                                    href="/register"
+                                    className="rounded-full bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-500"
                                 >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M4 6h16M4 12h16M4 18h16"
-                                    />
-                                </svg>
-                            )}
-                        </button>
+                                    Register
+                                </Link>
+                            </>
+                        ) : (
+                            <AvatarMenu
+                                avatarLabel={avatarLabel}
+                                logout={logout}
+                            />
+                        )}
                     </div>
+
+                    <button
+                        onClick={() => setOpen((value) => !value)}
+                        className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-slate-700 bg-slate-900 text-slate-200 transition hover:border-slate-500 hover:text-white md:hidden"
+                        aria-label="Toggle mobile menu"
+                    >
+                        {open ? (
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                className="h-5 w-5"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M6 18L18 6M6 6l12 12"
+                                />
+                            </svg>
+                        ) : (
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                className="h-5 w-5"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M4 6h16M4 12h16M4 18h16"
+                                />
+                            </svg>
+                        )}
+                    </button>
                 </div>
             </div>
 
-            {/* Mobile menu */}
             <div
-                className={`md:hidden ${open ? "block" : "hidden"} bg-slate-900/95 border-t border-slate-800`}
+                className={`${open ? "block" : "hidden"} border-t border-slate-800 bg-slate-950/95 md:hidden`}
             >
-                <div className="px-4 py-3 space-y-2">
-                    <Link href="/" className="block text-slate-200 py-2">
+                <div className="space-y-1 px-4 py-4">
+                    <Link
+                        href="/"
+                        className="block rounded-lg px-3 py-2 text-slate-200 transition hover:bg-slate-900 hover:text-white"
+                    >
                         Home
                     </Link>
-                    <Link href="/about" className="block text-slate-200 py-2">
+                    <Link
+                        href="/items"
+                        className="block rounded-lg px-3 py-2 text-slate-200 transition hover:bg-slate-900 hover:text-white"
+                    >
+                        Items
+                    </Link>
+                    <Link
+                        href="/about"
+                        className="block rounded-lg px-3 py-2 text-slate-200 transition hover:bg-slate-900 hover:text-white"
+                    >
                         About
                     </Link>
                     <Link
-                        href="/dashboard"
-                        className="block text-slate-200 py-2"
+                        href="/contact"
+                        className="block rounded-lg px-3 py-2 text-slate-200 transition hover:bg-slate-900 hover:text-white"
                     >
-                        Dashboard
+                        Contact
                     </Link>
-                    <Link href="/login" className="block text-slate-200 py-2">
-                        Login
-                    </Link>
-                    <Link
-                        href="/register"
-                        className="block text-slate-200 py-2"
-                    >
-                        Register
-                    </Link>
+                    {!user ? (
+                        <>
+                            <Link
+                                href="/login"
+                                className="block rounded-lg border border-slate-800 bg-slate-900 px-3 py-2 text-slate-200 transition hover:bg-slate-900/95 hover:text-white"
+                            >
+                                Login
+                            </Link>
+                            <Link
+                                href="/register"
+                                className="block rounded-lg bg-blue-600 px-3 py-2 text-center text-white transition hover:bg-blue-500"
+                            >
+                                Register
+                            </Link>
+                        </>
+                    ) : (
+                        <>
+                            <Link
+                                href="/products/add"
+                                className="block rounded-lg px-3 py-2 text-slate-200 transition hover:bg-slate-900 hover:text-white"
+                            >
+                                Add Product
+                            </Link>
+                            <Link
+                                href="/products/manage"
+                                className="block rounded-lg px-3 py-2 text-slate-200 transition hover:bg-slate-900 hover:text-white"
+                            >
+                                Manage Products
+                            </Link>
+                            <button
+                                type="button"
+                                onClick={logout}
+                                className="w-full rounded-lg px-3 py-2 text-left text-slate-200 transition hover:bg-slate-900 hover:text-white"
+                            >
+                                Logout
+                            </button>
+                        </>
+                    )}
                 </div>
             </div>
         </header>
