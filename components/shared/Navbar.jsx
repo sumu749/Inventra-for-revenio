@@ -45,6 +45,18 @@ export default function Navbar() {
                         >
                             Dashboard
                         </Link>
+                        <Link
+                            href="/login"
+                            className="text-slate-200 hover:text-white"
+                        >
+                            Login
+                        </Link>
+                        <Link
+                            href="/register"
+                            className="text-slate-200 hover:text-white"
+                        >
+                            Register
+                        </Link>
                     </nav>
 
                     <div className="flex items-center md:hidden">
@@ -105,6 +117,15 @@ export default function Navbar() {
                         className="block text-slate-200 py-2"
                     >
                         Dashboard
+                    </Link>
+                    <Link href="/login" className="block text-slate-200 py-2">
+                        Login
+                    </Link>
+                    <Link
+                        href="/register"
+                        className="block text-slate-200 py-2"
+                    >
+                        Register
                     </Link>
                 </div>
             </div>
