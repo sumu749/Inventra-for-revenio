@@ -1,20 +1,23 @@
 "use client";
 
 import { useFirebaseInitialization } from "@/hooks/useFirebaseInitialization";
+import { AuthTestComponent } from "@/components/AuthTestComponent";
 
 export default function HomePage() {
     const { isInitialized, error } = useFirebaseInitialization();
 
     return (
-        <main className="flex min-h-screen items-center justify-center bg-slate-950 text-white">
-            <div className="space-y-4 p-8 text-center">
-                <h1 className="text-4xl font-bold">Welcome to Revenio</h1>
-                <p className="text-lg text-slate-300">
-                    Next.js App Router starter project with Tailwind CSS.
-                </p>
+        <main className="flex min-h-screen items-center justify-center bg-slate-950 text-white p-4">
+            <div className="w-full max-w-md space-y-6">
+                <div className="space-y-2 text-center">
+                    <h1 className="text-4xl font-bold">Welcome to Revenio</h1>
+                    <p className="text-lg text-slate-300">
+                        Next.js App Router starter project with Tailwind CSS.
+                    </p>
+                </div>
 
-                <div className="mt-8 border-t border-slate-700 pt-6">
-                    <h2 className="text-sm font-semibold mb-3 text-slate-400">
+                <div className="border-t border-slate-700 pt-6">
+                    <h2 className="text-sm font-semibold mb-3 text-slate-400 text-center">
                         Firebase Status
                     </h2>
                     {isInitialized && !error ? (
@@ -38,6 +41,15 @@ export default function HomePage() {
                         </div>
                     )}
                 </div>
+
+                {isInitialized && (
+                    <div className="border-t border-slate-700 pt-6">
+                        <h2 className="text-sm font-semibold mb-4 text-slate-400 text-center">
+                            Authentication
+                        </h2>
+                        <AuthTestComponent />
+                    </div>
+                )}
             </div>
         </main>
     );
