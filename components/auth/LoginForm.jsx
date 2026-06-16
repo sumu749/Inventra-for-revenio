@@ -1,11 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
 
 export default function LoginForm() {
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const redirectTo = searchParams.get("redirect") ?? "/";
     const { login, loginWithGoogle } = useAuth();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -18,7 +20,7 @@ export default function LoginForm() {
         setLoading(true);
         try {
             await login(email, password);
-            router.push("/");
+            router.push(redirectTo);
         } catch (err) {
             setError(err.message || String(err));
         } finally {
@@ -31,7 +33,7 @@ export default function LoginForm() {
         setLoading(true);
         try {
             await loginWithGoogle();
-            router.push("/");
+            router.push(redirectTo);
         } catch (err) {
             setError(err.message || String(err));
         } finally {

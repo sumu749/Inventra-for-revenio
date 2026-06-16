@@ -70,6 +70,22 @@ export default function Navbar() {
                         <Link href="/items" className={getLinkClass("/items")}>
                             Items
                         </Link>
+                        {user ? (
+                            <>
+                                <Link
+                                    href="/items/add"
+                                    className={getLinkClass("/items/add")}
+                                >
+                                    Add Item
+                                </Link>
+                                <Link
+                                    href="/items/manage"
+                                    className={getLinkClass("/items/manage")}
+                                >
+                                    Manage Items
+                                </Link>
+                            </>
+                        ) : null}
                         <Link href="/about" className={getLinkClass("/about")}>
                             About
                         </Link>
@@ -190,16 +206,16 @@ export default function Navbar() {
                     ) : (
                         <>
                             <Link
-                                href="/products/add"
+                                href="/items/add"
                                 className="block rounded-lg px-3 py-2 text-slate-200 transition hover:bg-slate-900 hover:text-white"
                             >
-                                Add Product
+                                Add Item
                             </Link>
                             <Link
-                                href="/products/manage"
+                                href="/items/manage"
                                 className="block rounded-lg px-3 py-2 text-slate-200 transition hover:bg-slate-900 hover:text-white"
                             >
-                                Manage Products
+                                Manage Items
                             </Link>
                             <button
                                 type="button"
