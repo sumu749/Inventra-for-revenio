@@ -20,6 +20,10 @@ export default function Navbar() {
         return () => window.removeEventListener("scroll", onScroll);
     }, []);
 
+    useEffect(() => {
+        setOpen(false);
+    }, [pathname]);
+
     const avatarLabel = user?.displayName
         ? user.displayName[0].toUpperCase()
         : user?.email

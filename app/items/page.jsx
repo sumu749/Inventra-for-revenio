@@ -12,7 +12,7 @@ const currencyFormatter = new Intl.NumberFormat("en-US", {
 });
 
 export default function ItemsPage() {
-    const { items, removeItem } = useItems();
+    const { items } = useItems();
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("");
     const [priceRange, setPriceRange] = useState([0, 500]);
@@ -70,7 +70,6 @@ export default function ItemsPage() {
                         <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                             <ItemGrid
                                 items={sortedItems}
-                                onRemove={removeItem}
                                 isEmpty={sortedItems.length === 0}
                             />
                         </div>

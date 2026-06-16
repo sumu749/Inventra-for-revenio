@@ -2,14 +2,18 @@
 
 import Link from "next/link";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
+import ItemGrid from "@/components/items/ItemGrid";
+import useItems from "@/hooks/useItems";
 
 export default function ManageItemsPage() {
+    const { items, removeItem } = useItems();
+
     return (
         <ProtectedRoute>
             <main className="bg-slate-950 text-white min-h-screen px-4 py-10 sm:px-6 lg:px-8">
-                <div className="mx-auto max-w-4xl rounded-[2rem] border border-white/10 bg-slate-900/80 p-10 shadow-2xl shadow-black/30">
-                    <div className="flex flex-col gap-6">
-                        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div className="mx-auto max-w-7xl space-y-8">
+                    <div className="rounded-[2rem] border border-white/10 bg-slate-900/80 p-10 shadow-2xl shadow-black/30">
+                        <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
                             <div>
                                 <p className="text-sm uppercase tracking-[0.28em] text-blue-300">
                                     Protected page
@@ -17,6 +21,10 @@ export default function ManageItemsPage() {
                                 <h1 className="text-4xl font-semibold text-white">
                                     Manage Items
                                 </h1>
+                                <p className="mt-2 text-slate-400">
+                                    Review items that are saved locally, remove
+                                    entries, or add new ones.
+                                </p>
                             </div>
                             <Link
                                 href="/items"
@@ -25,13 +33,30 @@ export default function ManageItemsPage() {
                                 Back to items
                             </Link>
                         </div>
-
-                        <p className="max-w-2xl text-slate-400">
-                            Only authenticated users can manage inventory. If
-                            you are not signed in, you will be redirected to the
-                            login page and returned here after authentication.
-                        </p>
                     </div>
+
+                    <section className="rounded-[2rem] border border-white/10 bg-slate-900/80 p-10 shadow-2xl shadow-black/30">
+                        <div className="mb-8 flex items-center justify-between gap-4">
+                            <div>
+                                <p className="text-sm uppercase tracking-[0.28em] text-blue-300">
+                                    Inventory overview
+                                </p>
+                                <h2 className="text-3xl font-semibold text-white">
+                                    All items ({items.length})
+                                </h2>
+                            </div>
+                            <Link
+                                href="/items/add"
+                                className="rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-500"
+                            >
+                                Add new item
+                            </Link>
+                        </div>
+
+                        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                            <ItemGrid items={items} onRemove={removeItem} />
+                        </div>
+                    </section>
                 </div>
             </main>
         </ProtectedRoute>
