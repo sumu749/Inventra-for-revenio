@@ -77,7 +77,7 @@ Notes:
 
 ## Live URL
 
-Live URL: <YOUR_DEPLOYED_URL>
+Live URL: <https://inventra-for-revenio.vercel.app/>
 
 ---
 
