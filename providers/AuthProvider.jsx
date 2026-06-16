@@ -1,43 +1,59 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import {
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    signOut,
-    signInWithPopup,
-    GoogleAuthProvider,
-    onAuthStateChanged,
-} from "firebase/auth";
 import { getFirebaseAuth } from "@/lib/firebase.config";
 import { AuthContext } from "@/context/AuthContext";
-
-const googleProvider = new GoogleAuthProvider();
 
 export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const auth = getFirebaseAuth();
+    const [auth, setAuth] = useState(null);
 
-    // Listen to auth state changes
+    useEffect(() => {
+        let active = true;
+
+        async function initAuth() {
+            const authClient = await getFirebaseAuth();
+            if (active) {
+                setAuth(authClient);
+            }
+        }
+
+        initAuth();
+
+        return () => {
+            active = false;
+        };
+    }, []);
+
     useEffect(() => {
         if (!auth) return;
 
-        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-            setUser(currentUser || null);
-            setLoading(false);
+        let unsubscribe = null;
+
+        import("firebase/auth").then(({ onAuthStateChanged }) => {
+            unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+                setUser(currentUser || null);
+                setLoading(false);
+            });
         });
 
-        return unsubscribe;
+        return () => {
+            if (unsubscribe) {
+                unsubscribe();
+            }
+        };
     }, [auth]);
 
-    // Register with email/password
     const register = async (email, password) => {
         try {
             setError(null);
+            const authClient = auth || (await getFirebaseAuth());
+            const { createUserWithEmailAndPassword } =
+                await import("firebase/auth");
             const result = await createUserWithEmailAndPassword(
-                auth,
+                authClient,
                 email,
                 password,
             );
@@ -50,12 +66,14 @@ export function AuthProvider({ children }) {
         }
     };
 
-    // Login with email/password
     const login = async (email, password) => {
         try {
             setError(null);
+            const authClient = auth || (await getFirebaseAuth());
+            const { signInWithEmailAndPassword } =
+                await import("firebase/auth");
             const result = await signInWithEmailAndPassword(
-                auth,
+                authClient,
                 email,
                 password,
             );
@@ -68,11 +86,14 @@ export function AuthProvider({ children }) {
         }
     };
 
-    // Login with Google
     const loginWithGoogle = async () => {
         try {
             setError(null);
-            const result = await signInWithPopup(auth, googleProvider);
+            const authClient = auth || (await getFirebaseAuth());
+            const { signInWithPopup, GoogleAuthProvider } =
+                await import("firebase/auth");
+            const provider = new GoogleAuthProvider();
+            const result = await signInWithPopup(authClient, provider);
             setUser(result.user);
             return result.user;
         } catch (err) {
@@ -82,11 +103,12 @@ export function AuthProvider({ children }) {
         }
     };
 
-    // Logout
     const logout = async () => {
         try {
             setError(null);
-            await signOut(auth);
+            const authClient = auth || (await getFirebaseAuth());
+            const { signOut } = await import("firebase/auth");
+            await signOut(authClient);
             setUser(null);
         } catch (err) {
             const message = normalizeAuthError(err);
