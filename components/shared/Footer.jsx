@@ -58,7 +58,7 @@ export default function Footer() {
                                 </li>
                                 <li>
                                     <Link
-                                        href="/products/add"
+                                        href="/items/add"
                                         className="transition hover:text-white"
                                     >
                                         Add Product
@@ -66,7 +66,7 @@ export default function Footer() {
                                 </li>
                                 <li>
                                     <Link
-                                        href="/products/manage"
+                                        href="/items/manage"
                                         className="transition hover:text-white"
                                     >
                                         Manage Products
