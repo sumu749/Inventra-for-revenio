@@ -9,7 +9,7 @@ import {
     GoogleAuthProvider,
     onAuthStateChanged,
 } from "firebase/auth";
-import { auth } from "@/lib/firebase.config";
+import { getFirebaseAuth } from "@/lib/firebase.config";
 import { AuthContext } from "@/context/AuthContext";
 
 const googleProvider = new GoogleAuthProvider();
@@ -18,16 +18,19 @@ export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const auth = getFirebaseAuth();
 
     // Listen to auth state changes
     useEffect(() => {
+        if (!auth) return;
+
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser || null);
             setLoading(false);
         });
 
         return unsubscribe;
-    }, []);
+    }, [auth]);
 
     // Register with email/password
     const register = async (email, password) => {

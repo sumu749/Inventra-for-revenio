@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import app from "@/lib/firebase.config";
+import { getFirebaseApp } from "@/lib/firebase.config";
 
 export function useFirebaseInitialization() {
     const [isInitialized, setIsInitialized] = useState(false);
@@ -7,6 +7,7 @@ export function useFirebaseInitialization() {
 
     useEffect(() => {
         try {
+            const app = getFirebaseApp();
             if (app) {
                 console.log("Firebase initialized successfully");
                 console.log("Project ID:", app.options.projectId);
