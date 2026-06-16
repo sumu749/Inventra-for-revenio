@@ -2,11 +2,20 @@
 
 import Link from "next/link";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
-import ItemGrid from "@/components/items/ItemGrid";
+import ManageItemCard from "@/components/items/ManageItemCard";
 import useItems from "@/hooks/useItems";
 
 export default function ManageItemsPage() {
     const { items, removeItem } = useItems();
+
+    const handleDelete = (item) => {
+        const confirmed = window.confirm(
+            `Delete ${item.title}? This action cannot be undone.`,
+        );
+        if (confirmed) {
+            removeItem(item.id);
+        }
+    };
 
     return (
         <ProtectedRoute>
@@ -36,7 +45,7 @@ export default function ManageItemsPage() {
                     </div>
 
                     <section className="rounded-[2rem] border border-white/10 bg-slate-900/80 p-10 shadow-2xl shadow-black/30">
-                        <div className="mb-8 flex items-center justify-between gap-4">
+                        <div className="mb-8 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
                             <div>
                                 <p className="text-sm uppercase tracking-[0.28em] text-blue-300">
                                     Inventory overview
@@ -53,9 +62,27 @@ export default function ManageItemsPage() {
                             </Link>
                         </div>
 
-                        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                            <ItemGrid items={items} onRemove={removeItem} />
-                        </div>
+                        {items.length === 0 ? (
+                            <div className="rounded-[1.5rem] border border-dashed border-slate-700 bg-slate-950/80 p-12 text-center text-slate-400">
+                                <p className="text-xl font-semibold text-white">
+                                    No items found
+                                </p>
+                                <p className="mt-3 text-sm leading-6">
+                                    Your inventory is empty. Use the button
+                                    above to add your first item.
+                                </p>
+                            </div>
+                        ) : (
+                            <div className="grid gap-6">
+                                {items.map((item) => (
+                                    <ManageItemCard
+                                        key={item.id}
+                                        item={item}
+                                        onDelete={handleDelete}
+                                    />
+                                ))}
+                            </div>
+                        )}
                     </section>
                 </div>
             </main>
