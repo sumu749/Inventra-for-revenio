@@ -21,13 +21,17 @@ const mergeItems = (seedList, storedList) => {
     const merged = new Map();
     seedList.concat(storedList || []).forEach((item) => {
         const normalized = normalizeItem(item);
+        if (!normalized.id) {
+            return;
+        }
         merged.set(normalized.id, normalized);
     });
     return Array.from(merged.values());
 };
 
 export default function useItems() {
-    const [items, setItems] = useState(() => mergeItems(seedProducts, []));
+    const [items, setItems] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const storedItems = getLocalStorageItem(STORAGE_KEY, []);
@@ -37,6 +41,7 @@ export default function useItems() {
                 Array.isArray(storedItems) ? storedItems : [],
             ),
         );
+        setLoading(false);
     }, []);
 
     const saveItems = useCallback(
@@ -78,6 +83,7 @@ export default function useItems() {
 
     return {
         items,
+        loading,
         setItems: saveItems,
         addItem,
         updateItem,

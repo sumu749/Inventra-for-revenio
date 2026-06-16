@@ -5,6 +5,7 @@ import useItems from "@/hooks/useItems";
 import SearchBar from "@/components/items/SearchBar";
 import FilterPanel from "@/components/items/FilterPanel";
 import ItemGrid from "@/components/items/ItemGrid";
+import LoadingSkeleton from "@/components/shared/LoadingSkeleton";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -12,7 +13,7 @@ const currencyFormatter = new Intl.NumberFormat("en-US", {
 });
 
 export default function ItemsPage() {
-    const { items } = useItems();
+    const { items, loading } = useItems();
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("");
     const [priceRange, setPriceRange] = useState([0, 500]);
@@ -67,12 +68,16 @@ export default function ItemsPage() {
                             placeholder="Search by title or description..."
                         />
 
-                        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-                            <ItemGrid
-                                items={sortedItems}
-                                isEmpty={sortedItems.length === 0}
-                            />
-                        </div>
+                        {loading ? (
+                            <LoadingSkeleton count={6} />
+                        ) : (
+                            <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+                                <ItemGrid
+                                    items={sortedItems}
+                                    isEmpty={sortedItems.length === 0}
+                                />
+                            </div>
+                        )}
                     </div>
 
                     <div>

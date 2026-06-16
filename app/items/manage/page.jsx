@@ -3,10 +3,11 @@
 import Link from "next/link";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
 import ManageItemCard from "@/components/items/ManageItemCard";
+import LoadingSkeleton from "@/components/shared/LoadingSkeleton";
 import useItems from "@/hooks/useItems";
 
 export default function ManageItemsPage() {
-    const { items, removeItem } = useItems();
+    const { items, loading, removeItem } = useItems();
 
     const handleDelete = (item) => {
         const confirmed = window.confirm(
@@ -62,7 +63,9 @@ export default function ManageItemsPage() {
                             </Link>
                         </div>
 
-                        {items.length === 0 ? (
+                        {loading ? (
+                            <LoadingSkeleton count={3} />
+                        ) : items.length === 0 ? (
                             <div className="rounded-[1.5rem] border border-dashed border-slate-700 bg-slate-950/80 p-12 text-center text-slate-400">
                                 <p className="text-xl font-semibold text-white">
                                     No items found

@@ -41,8 +41,9 @@ export function AuthProvider({ children }) {
             setUser(result.user);
             return result.user;
         } catch (err) {
-            setError(err.message);
-            throw err;
+            const message = normalizeAuthError(err);
+            setError(message);
+            throw new Error(message);
         }
     };
 
@@ -58,8 +59,9 @@ export function AuthProvider({ children }) {
             setUser(result.user);
             return result.user;
         } catch (err) {
-            setError(err.message);
-            throw err;
+            const message = normalizeAuthError(err);
+            setError(message);
+            throw new Error(message);
         }
     };
 
@@ -71,8 +73,9 @@ export function AuthProvider({ children }) {
             setUser(result.user);
             return result.user;
         } catch (err) {
-            setError(err.message);
-            throw err;
+            const message = normalizeAuthError(err);
+            setError(message);
+            throw new Error(message);
         }
     };
 
@@ -83,8 +86,39 @@ export function AuthProvider({ children }) {
             await signOut(auth);
             setUser(null);
         } catch (err) {
-            setError(err.message);
-            throw err;
+            const message = normalizeAuthError(err);
+            setError(message);
+            throw new Error(message);
+        }
+    };
+
+    const normalizeAuthError = (err) => {
+        const code = err?.code || "";
+        const message = err?.message || String(err);
+
+        switch (code) {
+            case "auth/email-already-in-use":
+                return "This email is already in use. Try logging in or use another email.";
+            case "auth/invalid-email":
+                return "Please enter a valid email address.";
+            case "auth/operation-not-allowed":
+                return "This authentication method is not enabled.";
+            case "auth/weak-password":
+                return "Use a stronger password with at least 6 characters.";
+            case "auth/user-not-found":
+                return "No account found with that email. Please register first.";
+            case "auth/wrong-password":
+                return "The password is incorrect. Please try again.";
+            case "auth/popup-closed-by-user":
+                return "Google login was canceled. Please try again if you want to sign in with Google.";
+            case "auth/cancelled-popup-request":
+                return "Google login was interrupted. Please try again.";
+            case "auth/popup-blocked":
+                return "Google login popup was blocked. Allow popups or use email sign-in.";
+            case "auth/network-request-failed":
+                return "Network error. Check your connection and try again.";
+            default:
+                return message;
         }
     };
 

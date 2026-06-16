@@ -9,7 +9,7 @@ const currencyFormatter = new Intl.NumberFormat("en-US", {
 
 export default function ManageItemCard({ item, onDelete }) {
     return (
-        <article className="rounded-[1.75rem] border border-white/10 bg-slate-900/80 p-6 shadow-xl shadow-black/20 transition hover:border-blue-400/30">
+        <article className="rounded-[1.75rem] border border-white/10 bg-slate-900/80 p-6 shadow-xl shadow-black/20 transition duration-200 hover:-translate-y-0.5 hover:border-blue-400/30 hover:shadow-blue-500/20 focus-within:-translate-y-0.5 focus-within:border-blue-400/30 focus-within:shadow-blue-500/20">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                 <div className="space-y-3">
                     <div className="flex flex-wrap items-center gap-2">
@@ -41,14 +41,14 @@ export default function ManageItemCard({ item, onDelete }) {
                 <div className="grid gap-3 sm:grid-cols-2">
                     <Link
                         href={`/items/${item.id}`}
-                        className="inline-flex items-center justify-center rounded-3xl bg-slate-800 px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-700"
+                        className="inline-flex items-center justify-center rounded-3xl bg-slate-800 px-4 py-3 text-sm font-semibold text-white transition duration-200 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-950"
                     >
                         View details
                     </Link>
                     <button
                         type="button"
                         onClick={() => onDelete(item)}
-                        className="inline-flex items-center justify-center rounded-3xl border border-red-600/40 bg-red-600/10 px-4 py-3 text-sm font-semibold text-red-200 transition hover:bg-red-600/20 hover:text-white"
+                        className="inline-flex items-center justify-center rounded-3xl border border-red-600/40 bg-red-600/10 px-4 py-3 text-sm font-semibold text-red-200 transition duration-200 hover:bg-red-600/20 hover:text-white focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-slate-950"
                     >
                         Delete
                     </button>

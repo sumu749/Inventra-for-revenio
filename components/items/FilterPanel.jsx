@@ -24,27 +24,27 @@ export default function FilterPanel({
     }, [items]);
 
     return (
-        <div className="flex flex-col gap-6 rounded-2xl border border-slate-700 bg-slate-900/50 p-5">
+        <div className="flex flex-col gap-6 rounded-[2rem] border border-slate-700 bg-slate-900/50 p-6 shadow-inner shadow-black/20">
             <div>
                 <h3 className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-300">
                     Category
                 </h3>
                 <div className="mt-4 space-y-2">
-                    <label className="flex items-center gap-3 cursor-pointer">
+                    <label className="flex items-center gap-3 cursor-pointer rounded-3xl px-3 py-2 transition hover:bg-slate-800/60">
                         <input
                             type="radio"
                             name="category"
                             value=""
                             checked={selectedCategory === ""}
                             onChange={(e) => onCategoryChange(e.target.value)}
-                            className="h-4 w-4 rounded border-slate-500 text-blue-600 focus:ring-blue-500"
+                            className="h-4 w-4 rounded border-slate-500 text-blue-600 focus:ring-2 focus:ring-blue-500"
                         />
                         <span className="text-sm text-slate-300">All</span>
                     </label>
                     {categories.map((cat) => (
                         <label
                             key={cat}
-                            className="flex items-center gap-3 cursor-pointer"
+                            className="flex items-center gap-3 cursor-pointer rounded-3xl px-3 py-2 transition hover:bg-slate-800/60"
                         >
                             <input
                                 type="radio"
@@ -54,7 +54,7 @@ export default function FilterPanel({
                                 onChange={(e) =>
                                     onCategoryChange(e.target.value)
                                 }
-                                className="h-4 w-4 rounded border-slate-500 text-blue-600 focus:ring-blue-500"
+                                className="h-4 w-4 rounded border-slate-500 text-blue-600 focus:ring-2 focus:ring-blue-500"
                             />
                             <span className="text-sm text-slate-300">
                                 {cat}
@@ -86,7 +86,7 @@ export default function FilterPanel({
                                     priceRange[1],
                                 ])
                             }
-                            className="mt-2 w-full"
+                            className="mt-2 w-full accent-blue-500"
                         />
                     </div>
                     <div>

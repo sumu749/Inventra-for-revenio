@@ -9,8 +9,8 @@ const currencyFormatter = new Intl.NumberFormat("en-US", {
 
 export default function ItemCard({ item, onRemove }) {
     return (
-        <article className="group overflow-hidden rounded-2xl border border-white/10 bg-slate-900 shadow-lg shadow-black/20 transition hover:border-blue-400/40 hover:shadow-blue-500/10">
-            <div className="relative h-48 overflow-hidden bg-slate-800">
+        <article className="group overflow-hidden rounded-[2rem] border border-white/10 bg-slate-900 shadow-lg shadow-black/20 transition duration-200 hover:-translate-y-0.5 hover:border-blue-400/40 hover:shadow-blue-500/10 focus-within:-translate-y-0.5 focus-within:border-blue-400/40 focus-within:shadow-blue-500/10">
+            <div className="relative h-48 overflow-hidden bg-slate-800 transition duration-200 group-hover:scale-[1.01]">
                 {item.image ? (
                     <img
                         src={item.image}
@@ -49,7 +49,7 @@ export default function ItemCard({ item, onRemove }) {
                     <div className="flex items-center gap-2">
                         <Link
                             href={`/items/${item.id}`}
-                            className="rounded-lg bg-blue-600 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-blue-500"
+                            className="rounded-lg bg-blue-600 px-3 py-1.5 text-xs font-semibold text-white transition duration-200 hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-950"
                         >
                             View
                         </Link>
@@ -57,7 +57,7 @@ export default function ItemCard({ item, onRemove }) {
                             <button
                                 type="button"
                                 onClick={() => onRemove(item.id)}
-                                className="rounded-lg bg-red-600/20 px-3 py-1.5 text-xs font-semibold text-red-300 transition hover:bg-red-600 hover:text-white"
+                                className="rounded-lg bg-red-600/20 px-3 py-1.5 text-xs font-semibold text-red-300 transition duration-200 hover:bg-red-600 hover:text-white focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-slate-950"
                             >
                                 Remove
                             </button>
