@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 const currencyFormatter = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
@@ -44,15 +46,23 @@ export default function ItemCard({ item, onRemove }) {
                     <p className="text-xs uppercase tracking-[0.24em] text-slate-500">
                         {new Date(item.createdAt).toLocaleDateString()}
                     </p>
-                    {onRemove && (
-                        <button
-                            type="button"
-                            onClick={() => onRemove(item.id)}
-                            className="rounded-lg bg-red-600/20 px-3 py-1.5 text-xs font-semibold text-red-300 transition hover:bg-red-600 hover:text-white"
+                    <div className="flex items-center gap-2">
+                        <Link
+                            href={`/items/${item.id}`}
+                            className="rounded-lg bg-blue-600 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-blue-500"
                         >
-                            Remove
-                        </button>
-                    )}
+                            View
+                        </Link>
+                        {onRemove && (
+                            <button
+                                type="button"
+                                onClick={() => onRemove(item.id)}
+                                className="rounded-lg bg-red-600/20 px-3 py-1.5 text-xs font-semibold text-red-300 transition hover:bg-red-600 hover:text-white"
+                            >
+                                Remove
+                            </button>
+                        )}
+                    </div>
                 </div>
             </div>
         </article>
