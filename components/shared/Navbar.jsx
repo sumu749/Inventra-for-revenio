@@ -120,6 +120,7 @@ export default function Navbar() {
                         ) : (
                             <AvatarMenu
                                 avatarLabel={avatarLabel}
+                                user={user}
                                 logout={logout}
                             />
                         )}
