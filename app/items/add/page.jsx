@@ -1,8 +1,13 @@
-"use client";
-
+import dynamic from "next/dynamic";
 import Link from "next/link";
-import ProtectedRoute from "@/components/auth/ProtectedRoute";
-import ItemForm from "@/components/items/ItemForm";
+
+const ProtectedRoute = dynamic(
+    () => import("@/components/auth/ProtectedRoute"),
+    { ssr: false },
+);
+const ItemForm = dynamic(() => import("@/components/items/ItemForm"), {
+    ssr: false,
+});
 
 export default function AddItemPage() {
     return (
